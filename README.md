@@ -67,15 +67,76 @@ Nos aparecen bastentes metas:
 
 Ahora mismo nos interesa la meta `package`.
 
-4) Ejecutamos la meta (goal) para generar un paquete
+4) Ejecutamos la me
+
+
+
+ta (goal) para generar un paquete
 
 ```bash
 mvn  package
 ```
 ![mvn package](imgs/maven-package.png)
 
+![tomcat archivo war](imgs/tomcat-archivo-war.png)
 
-5) Ejecutamos 
+
+5) Comprobamos que el archivo `docker-compose.yml` tiene el siguiente contenido: 
+
+```
+cat  docker-compose.yml
+```
+
+```yaml
+version: "2"
+services:
+    tomcat:
+        image: "tomcat:8.0-jre8"
+        ports:
+            - "8080:8080"
+        depends_on:
+            - sqlserver
+    sqlserver:
+        image: "microsoft/mssql-server-linux:2017-latest"
+        environment:
+            SA_PASSWORD: "Temporal22"
+            ACCEPT_EULA: "Y"
+```
+
+6) Ejecutamos 
+
+```
+docker-compose  up  -d
+```
+
+Este comando descargará las imágenes indicadas anteriormente y creará un contenedor por cada una de ellas. 
+
+![docker-compose up -d](imgs/docker-compose-up.png)
+
+
+**AVISO:** Las 2 imágenes ocupan un total de unos 2 GB aproximadamente.
+
+![docker images](imgs/docker-images.png)
+
+Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. En la imagen anterior se pueden ver las imágenes que tengo yo en el disco de mi servidor. A tí deberían aparecerte las siguientes:
+
+- `tomcat:8.0-jre8` (463MB)
+- `microsoft/mssql-server-linux:2017-latest` (1.44GB)
+
+
+7) Si todo ha ido bien, abriremos la URL `localhost:8080` en el navegador y veremos lo siguiente:
+
+![tomcat local](imgs/tomcat-local.png)
+
+
+8) 
+
+tomcat-manager.png
+
+tomcat-autenticacion.png
+
+tomcat-gestor-aplicaciones.png
+
 
 ```bash
 docker run -d -p 8080:8080 --name tomcat tomcat:8.0-jre8
@@ -93,13 +154,11 @@ cd /data
 
 
 ```
-tomcat-archivo-war.png
-tomcat-autenticacion.png
+
 tomcat-desplegar.png
 tomcat-desplegar-proyecto.png
 tomcat-fpbasics1.png
 tomcat-fpbasics2.png
 tomcat-fpbasics3.png
-tomcat-gestor-aplicaciones.png
-tomcat.png
+
 ```
