@@ -32,4 +32,74 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 - https://hub.docker.com/r/microsoft/mssql-server-linux/ . Usaremos el **tag 2017-latest**
 
 
+
 ### Pasos a seguir
+
+Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 16.04 y en Ubuntu 18.04.
+
+1) Instalamos el software básico
+
+```bash
+sudo  apt  install  docker.io  docker-compose  maven  git
+```
+
+2) Descargamos código fuente del proyecto y entramos en la carpeta
+
+```bash
+git  clone  https://github.com/jamj2000/FPBasics.git
+cd  FPBasics
+```
+
+3) Probamos maven
+
+```bash
+mvn
+```
+
+Debe apareceer algo parecido a lo siguiente:
+
+![mvn](imgs/maven-goals.png)
+
+
+Nos aparecen bastentes metas:
+
+`validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
+
+Ahora mismo nos interesa la meta `package`.
+
+4) Ejecutamos la meta (goal) para generar un paquete
+
+```bash
+mvn  package
+```
+![mvn package](imgs/maven-package.png)
+
+
+5) Ejecutamos 
+
+```bash
+docker run -d -p 8080:8080 --name tomcat tomcat:8.0-jre8
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Temporal22" --name sqlserver -v /ruta/absoluta/scripts:/data -p 1433:1433 -d microsoft/mssql-server-linux:2017-latest
+```
+
+Entramos en el contenedor `sqlserver` 
+
+```bash
+docker exec -it sqlserver bash
+cd /data
+/opt/mssql-tools/bin/sqlcmd -U SA -P Curso2017-18 -i CrearTablas.sql
+/opt/mssql-tools/bin/sqlcmd -U SA -P Curso2017-18 -i InsertarDatos.sql
+```
+
+
+```
+tomcat-archivo-war.png
+tomcat-autenticacion.png
+tomcat-desplegar.png
+tomcat-desplegar-proyecto.png
+tomcat-fpbasics1.png
+tomcat-fpbasics2.png
+tomcat-fpbasics3.png
+tomcat-gestor-aplicaciones.png
+tomcat.png
+```
