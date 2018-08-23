@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Consulta Actividades Formativas</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:clock displayMode="analog" />
+		<p:growl id="messages" showDetail="false" />
+		<p:menu>
+			<p:submenu label="Menú">
+				<p:menuitem value="Atrás" url="Menu.xhtml" />
+				<p:menuitem value="Salir" url="index.xhtml"
+					icon="ui-icon-power" />
+			</p:submenu>
+		</p:menu>
+		<h1>Registros de la tabla Actividades de Formadores</h1>
+
+		<p:dataTable var="actividad" value="#{tablaActividadesFormadoresVista.actividadesFormadores}">
+			<p:column headerText="ID Formador">
+				<h:outputText value="#{actividad.idFormador}" />
+			</p:column>
+			<p:column headerText="ID Actividad">
+				<h:outputText value="#{actividad.idActividad}" />
+			</p:column>
+			<p:column headerText="Empresa">
+				<h:outputText value="#{actividad.empresa}" />
+			</p:column>
+			<p:column headerText="ID Bloque">
+				<h:outputText value="#{actividad.idBloque}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

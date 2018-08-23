@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Consulta Formadores</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:clock displayMode="analog" />
+		<p:growl id="messages" showDetail="false" />
+		<p:menu>
+			<p:submenu label="Menú">
+				<p:menuitem value="Atrás" url="Menu.xhtml" />
+				<p:menuitem value="Salir" url="index.xhtml"
+					icon="ui-icon-power" />
+			</p:submenu>
+		</p:menu>
+		<h1>Registros de la tabla Formadores</h1>
+
+		<p:dataTable var="formadores" value="#{tablaFormadoresVista.formadores}">
+			<p:column headerText="ID Formador">
+				<h:outputText value="#{formadores.idFormador}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<h:outputText value="#{formadores.nombre}" />
+			</p:column>
+			<p:column headerText="Apellidos">
+				<h:outputText value="#{formadores.apellidos}" />
+			</p:column>
+			<p:column headerText="Teléfono">
+				<h:outputText value="#{formadores.telefono}" />
+			</p:column>
+			<p:column headerText="email">
+				<h:outputText value="#{formadores.email}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

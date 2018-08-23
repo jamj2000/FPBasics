@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Consulta Bloques</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:clock displayMode="analog" />
+		<p:growl id="messages" showDetail="false" />
+		<p:menu>
+			<p:submenu label="Menú">
+				<p:menuitem value="Atrás" url="Menu.xhtml" />
+				<p:menuitem value="Salir" url="index.xhtml"
+					icon="ui-icon-power" />
+			</p:submenu>
+		</p:menu>
+		<h1>Registros de la tabla Bloques</h1>
+
+		<p:dataTable var="bloques" value="#{tablaBloquesVista.bloques}">
+			<p:column headerText="Empresa">
+				<h:outputText value="#{bloques.empresa}" />
+			</p:column>
+			<p:column headerText="ID Bloque">
+				<h:outputText value="#{bloques.idBloque}" />
+			</p:column>
+			<p:column headerText="ID Módulo">
+				<h:outputText value="#{bloques.idModulo}" />
+			</p:column>
+			<p:column headerText="Orden">
+				<h:outputText value="#{bloques.orden}" />
+			</p:column>
+			<p:column headerText="Descripción">
+				<h:outputText value="#{bloques.descripcion}" />
+			</p:column>
+			<p:column headerText="Formador Responsable">
+				<h:outputText value="#{bloques.idFormadorResponsable}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

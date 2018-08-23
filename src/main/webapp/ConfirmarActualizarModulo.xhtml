@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Confirmar</title>
+</h:head>
+<h:body>
+	<h:form>
+	<p:clock displayMode="analog" />
+	<p:growl id="messages" showDetail="false" />
+	<p:menu>
+		<p:submenu label="Menú">
+			<p:menuitem value="Salir" url="index.xhtml" icon="ui-icon-power" />
+		</p:submenu>
+	</p:menu>
+	
+	<br/>
+	
+	<h1>Registro modificado:</h1>
+	<br/>
+	<p:dataTable var="registro"
+			value="#{botonModificarModulosVista.nuevoRegistroModulos}">
+			<p:column headerText="Id Módulo">
+				<h:outputText value="#{registro.idModulos}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<h:outputText value="#{registro.nombre}"/>
+			</p:column>
+			<p:column headerText="Duración">
+				<h:outputText  value="#{registro.duracion}" />
+			</p:column>
+			<p:column headerText="Curso">
+				<h:outputText  value="#{registro.curso}"/>
+			</p:column>
+		</p:dataTable>
+	<hr/>
+	<h3>Estos cambios ser harán permanentes.
+	¿Esta seguro?</h3>
+	<br/>
+	<p:commandLink action="tablaModulos.xhtml" actionListener="#{botonModificarModulosVista.confirmarModificacion()}" 
+	ajax="false" onclick="PF('carga').show()" update="error">
+					<h:outputText value="Sí,estoy seguro." />
+	</p:commandLink>
+	<br/>
+	<p:commandLink action="ActualizarRegistroTablaModulos.xhtml" actionListener="#{botonModificarModulosVista.atras()}" 
+	ajax="false" onclick="PF('carga').show()" update="error">
+					<h:outputText value="No,volver atrás." />
+	</p:commandLink>
+	</h:form>
+	
+	<p:dialog header="Actualizando..." widgetVar="carga" modal="true"
+		resizable="false">
+		<h:panelGrid id="greeting" columns="1" cellpadding="4">
+			<h:outputText value="Realizando actualización, por favor espere..." />
+		</h:panelGrid>
+	</p:dialog>
+	
+</h:body>
+</html>

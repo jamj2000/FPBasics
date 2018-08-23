@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<title>Consulta Modulos</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:clock displayMode="analog" />
+		<p:growl id="messages" showDetail="false" />
+		<p:menu>
+			<p:submenu label="Menú">
+				<p:menuitem value="Atrás" url="Menu.xhtml" />
+				<p:menuitem value="Salir" url="index.xhtml"
+					icon="ui-icon-power" />
+			</p:submenu>
+		</p:menu>
+		<br/>
+		<h1>Realizar consulta filtrada:</h1>
+		<br/>
+		<br/>
+		<p:outputLabel value="Inserte nombre del módulo y/o curso:" />
+		<br/>
+		<h:inputText required="true"
+			value="#{realizarConsultaFiltrada.filtro}" />
+			
+		<br/>
+		<br/>
+		<p:commandLink id="consultar" action="mostrarConsultaFiltradaTablaModulos.xhtml"
+			actionListener="#{realizarConsultaFiltrada.realizarConsultaFiltrada()}"
+			ajax="false" onclick="PF('carga').show()">
+			<h:outputText value="Enviar" />
+		</p:commandLink>
+
+	</h:form>
+
+	<p:dialog header="Cargando..." widgetVar="carga" modal="true"
+		resizable="false">
+		<h:panelGrid id="greeting" columns="1" cellpadding="4">
+			<h:outputText value="Buscando registros en la BD..." />
+		</h:panelGrid>
+	</p:dialog>
+</h:body>
+</html>

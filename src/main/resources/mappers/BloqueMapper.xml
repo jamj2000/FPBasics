@@ -1,0 +1,52 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="es.fpbasics.mapper.BloqueMapper">
+
+	<update id="modificarRegistroDeLaTablaBloques">
+		UPDATE BLOQUES
+		SET ID_MODULO = #{bloque.idModulo},
+		ORDEN = #{bloque.orden},
+		DESCRIPCION = #{bloque.descripcion}
+		ID_FORMADOR_RESPONSABLE = #{bloque.idFormadorResponsable}
+		WHERE ID_BLOQUE = #{bloque.idModulo} AND
+		EMPRESA = #{bloque.empresa}
+	</update>
+	<!-- General -->
+	<sql id="baseSelectDocumento">
+		SELECT * FROM BLOQUES WHERE 1=1
+	</sql>
+		
+	<select id="consultarTodosLosRegistrosDeLaTablaBloques" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>
+	</select>
+	
+	<!-- Para modificacion y acceso desde tabla Actividades Formativas -->
+	<select id="consultarRegistrosDeLaTablaBloquePorEmpresaYIdBloque" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_BLOQUE=#{idBloque} AND EMPRESA=#{empresa}
+	</select>
+	
+	<!-- Para acceso desde tabla Formadores -->
+	<select id="consultarRegistrosDeLaTablaBloquePorIdFormadorResponsable" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_FORMADOR_RESPONSABLE=#{idFormadorResponsable}
+	</select>
+	
+	<!-- Para acceso desde tabla Modulos -->
+	<select id="consultarRegistrosDeLaTablaBloquePorIdModulo" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_MODULO=#{idModulo}
+	</select>
+	
+	<select id="consultarRegistrosDeLaTablaBloqueFiltrado" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND (EMPRESA LIKE #{filtro} OR ORDEN LIKE #{filtro} OR DESCRIPCION LIKE #{filtro})
+
+	</select>
+
+	<resultMap id="crearRegistro" type="es.fpbasics.modelo.TablaBloques">
+		<constructor>
+			<idArg column="EMPRESA" javaType="String" />
+			<arg column="ID_BLOQUE" javaType="Integer" />
+			<arg column="ID_MODULO" javaType="Integer" />
+			<arg column="ORDEN" javaType="String" />
+			<arg column="DESCRIPCION" javaType="String" />
+			<arg column="ID_FORMADOR_RESPONSABLE" javaType="Integer" />
+		</constructor>
+	</resultMap>
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="es.fpbasics.mapper.FormadorMapper">
+
+	<update id="modificarRegistroDeLaTablaFormadores">
+		UPDATE FORMADORES
+		SET NOMBRE = #{formador.nombre},
+		APELLIDOS = #{formador.apellidos},
+		TELEFONO = #{formador.telefono}
+		EMAIL = #{formador.email}
+		WHERE ID_FORMADOR = #{formador.idformador} 
+	</update>
+	<!-- General -->
+	<sql id="baseSelectDocumento">
+		SELECT * FROM FORMADORES WHERE 1=1
+	</sql>
+
+	<select id="consultarTodosLosRegistrosDeLaTablaFormadores" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>
+	</select>
+	
+	
+	<!-- Para acceso por la tabla bloques y para modificacion -->
+	<select id="consultarRegistrosDeLaTablaFormadoresPorIdFormador" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_FORMADOR=#{idFormador}
+
+	</select>
+
+
+	<!-- Para acceso por la tabla Actividades Formativas -->
+	<select id="consultarRegistrosDeLaTablaFormadoresPorIdFormadorViaActividadesFormativas" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_FORMADOR = ANY(SELECT ID_FORMADOR FROM ACTIVIDADES_FORMADORES WHERE ID_ACTIVIDAD=#{idActividad} AND EMPRESA=#{idEmpresa} AND ID_BLOQUE=#{idBloque})
+	</select>
+	
+	<select id="consultarRegistrosDeLaTablaFormadoresFiltrado" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND (NOMBRE LIKE #{filtro} OR APELLIDOS LIKE #{filtro} OR EMAIL LIKE #{filtro})
+
+	</select>
+	
+	<resultMap id="crearRegistro" type="es.fpbasics.modelo.TablaFormadores">
+		<constructor>
+			<idArg column="ID_FORMADOR" javaType="Integer" />
+			<arg column="NOMBRE" javaType="String" />
+			<arg column="APELLIDOS" javaType="String" />
+			<arg column="TELEFONO" javaType="Integer" />
+			<arg column="EMAIL" javaType="String" />
+		</constructor>
+	</resultMap>
+
+</mapper>

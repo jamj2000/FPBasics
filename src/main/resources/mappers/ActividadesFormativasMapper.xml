@@ -1,0 +1,62 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="es.fpbasics.mapper.ActividadFormativaMapper">
+
+	<update id="modificarRegistroDeLaTablaActividadesFormativas">
+		UPDATE ACTIVIDADES_FORMATIVAS
+		SET DESCRIPCION_ACTIVIDAD = #{ActividadFormativa.descripcionActividad},
+		HORAS_DEDICADAS = #{ActividadFormativa.horasDedicadas}
+		WHERE ID_ACTIVIDAD = #{ActividadFormativa.idActividad} AND
+		EMPRESA = #{ActividadFormativa.empresa} AND
+		ID_BLOQUE =#{ActividadFormativa.idBloque}
+	</update>
+	
+	<!-- General -->
+	<sql id="baseSelectDocumento">
+		SELECT * FROM ACTIVIDADES_FORMATIVAS WHERE 1=1
+	</sql>
+	<select id="consultarTodosLosRegistrosDeLaTablaActividadesFormativas" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>
+
+	</select>
+	
+	
+	<!-- Para modificaciones -->
+	<select id="consultarRegistrosDeLaTablaActividadesFormativasPorIdActividadEmpresaEIdBloque" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND WHERE ID_ACTIVIDAD=#{idActividad} AND EMPRESA=#{empresa} AND ID_BLOQUE=#{idBloque}
+
+	</select>
+	
+	<!-- Para acceso desde tabla Bloques -->
+	<select id="consultarRegistrosDeLaTablaActividadesFormativasPorEmpresaEIdBloque" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>  AND EMPRESA=#{empresa} AND ID_BLOQUE=#{idBloque}
+
+	</select>
+	
+	<!-- Para acceso desde tabla Formadores -->
+	<select id="consultarRegistrosDeLaTablaActividadesFormativasPorIdActividadEmpresaEIdBloqueViaFormadores" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_ACTIVIDAD=ANY(SELECT ID_ACTIVIDAD FROM ACTIVIDADES_FORMADORES WHERE ID_FORMADOR=#{idFormador}) 
+		AND EMPRESA=ANY(SELECT EMPRESA FROM ACTIVIDADES_FORMADORES WHERE ID_FORMADOR=#{idFormador}) 
+		AND ID_BLOQUE=ANY(SELECT ID_BLOQUE FROM ACTIVIDADES_FORMADORES WHERE ID_FORMADOR=#{idFormador})
+
+	</select>
+	
+
+	<select id="consultarRegistrosDeLaTablaActividadesFormativasFiltrado" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND (EMPRESA LIKE #{filtro} OR DESCRIPCION_ACTIVIDAD LIKE #{filtro})
+
+	</select>
+
+
+
+	<resultMap id="crearRegistro" type="es.fpbasics.modelo.TablaActividadesFormativas">
+		<constructor>
+			<idArg column="ID_ACTIVIDAD" javaType="Integer" />
+			<arg column="EMPRESA" javaType="String" />
+			<arg column="ID_BLOQUE" javaType="Integer" />
+			<arg column="DESCRIPCION_ACTIVIDAD" javaType="String" />
+			<arg column="HORAS_DEDICADAS" javaType="Integer" />
+
+		</constructor>
+	</resultMap>
+
+</mapper>

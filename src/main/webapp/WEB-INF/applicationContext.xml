@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<context:component-scan base-package="es.fpbasics.servicio" />
+	<context:component-scan base-package="es.fpbasics.servicioimpl" />
+	<context:component-scan base-package="es.fpbasics.repositorio" />
+	<context:component-scan base-package="es.fpbasics.repositorioimpl" />
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
+		<property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
+		<property name="username" value="sa" />
+		<property name="password" value="Temporal22" />
+	</bean>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 <property name="dataSource" ref="dataSource" />
+	 <property name="typeAliasesPackage" value="es.fpbasics.modelo" />
+	 <property name="mapperLocations" value="classpath*:mappers/**/*.xml" />
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	 <constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--  Mapeadores(daos) -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="es.fpbasics.mapper" />
+	</bean>
+
+</beans>

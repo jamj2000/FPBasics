@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Consulta Módulos</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:clock displayMode="analog" />
+		<p:growl id="messages" showDetail="false" />
+		<p:menu>
+			<p:submenu label="Menú">
+				<p:menuitem value="Atrás" url="Menu.xhtml" />
+				<p:menuitem value="Salir" url="index.xhtml" icon="ui-icon-power" />
+			</p:submenu>
+		</p:menu>
+		<h1>Registros de la tabla Módulos</h1>
+
+		<p:dataTable var="modulo" value="#{realizarConsultaFiltrada.registrosObtenidos}">
+			<p:column headerText="Id Módulo">
+				<h:outputText value="#{modulo.idModulo}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<h:outputText value="#{modulo.nombre}" />
+			</p:column>
+			<p:column headerText="Duración">
+				<h:outputText value="#{modulo.duracion}" />
+			</p:column>
+			<p:column headerText="Curso">
+				<h:outputText value="#{modulo.curso}" />
+			</p:column>
+			<p:column headerText="Seleccionar registro a modificar:">
+				<p:commandLink id="modificar"
+					action="ActualizarRegistroTablaModulos.xhtml"
+					actionListener="#{botonModificarModulosVista.botonParaUnaPrimaria(modulo.idModulo)}"
+					ajax="false" onclick="PF('carga').show()">
+					<h:outputText value="Actualizar" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Cargando..." widgetVar="carga" modal="true"
+			resizable="false">
+			<h:panelGrid id="greeting" columns="1" cellpadding="4">
+				<h:outputText value="Seleccionando registro, espere un momento por favor..." />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

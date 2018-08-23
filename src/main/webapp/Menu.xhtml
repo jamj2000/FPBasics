@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <title>Menú</title>
+</h:head>
+
+<h:body>
+  <h:form>  
+  	 <p:clock displayMode="analog" />
+    <p:growl id="messages" showDetail="false"/>
+    <p:menu>
+        <p:submenu label="Menú">
+            <p:menuitem value="Consultar Tabla Modulos" onclick="PF('carga').show()" url="tablaModulos.xhtml"/>
+            <p:menuitem value="Consultar Tabla Bloques" onclick="PF('carga').show()" url="tablaBloques.xhtml"/>
+            <p:menuitem value="Consultar Tabla Resultados Aprendizaje" onclick="PF('carga').show()" url="tablaResultadosAprendizaje.xhtml"/>
+            <p:menuitem value="Consultar Tabla Formadores" onclick="PF('carga').show()" url="tablaFormadores.xhtml"/>
+            <p:menuitem value="Consultar Tabla Actividades de Formadores" onclick="PF('carga').show()" url="tablaActividadesFormadores.xhtml"/>
+            <p:menuitem value="Consultar Tabla Actividades Formativas" onclick="PF('carga').show()" url="tablaActividadesFormativas.xhtml"/>
+            <p:menuitem value="Salir" url="index.xhtml" onclick="PF('carga').show()" icon="ui-icon-power"/>
+        </p:submenu>
+    </p:menu>
+     <p:dialog header="Cargando..." widgetVar="carga"
+      modal="true" resizable="false">
+      <h:panelGrid id="greeting" columns="1" cellpadding="4">
+        <h:outputText value="Buscando en la Base de Datos..." />
+      </h:panelGrid>
+    </p:dialog>
+  
+</h:form>
+</h:body>
+</html>

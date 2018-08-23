@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<title>Actualizar Registro</title>
+</h:head>
+<h:body>
+	<h:form>
+	<p:clock displayMode="analog" />
+	<p:growl id="messages" showDetail="false" />
+	<p:menu>
+		<p:submenu label="Menú">
+			<p:menuitem value="Atrás" url="menu.xhtml" />
+			<p:menuitem value="Salir" url="helloworld.xhtml" icon="ui-icon-power" />
+		</p:submenu>
+	</p:menu>
+	<h1>Actualizar registro tabla Módulos:</h1>
+	
+		<p:dataTable var="registro"
+			value="#{botonModificarModulosVista.registroModulos}">
+			<p:column headerText="Id Módulo">
+				<h:outputText value="#{registro.idModulo}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<h:outputText value="#{registro.nombre}" />
+			</p:column>
+			<p:column headerText="Duración">
+				<h:outputText value="#{registro.duracion}" />
+			</p:column>
+			<p:column headerText="Curso">
+				<h:outputText value="#{registro.curso}" />
+			</p:column>
+		</p:dataTable>
+
+		<hr />
+
+		<p:dataTable var="modulo"
+			value="#{botonModificarModulosVista.registroModulos}">
+			<p:column headerText="Id Módulo">
+				<h:outputLabel for="idModulo" />
+				<h:outputText id="idModulo" label="modulo.idModulo" required="true"
+					value="#{modulo.idModulo}" />
+			</p:column>
+			<p:column headerText="Nombre">
+				<h:outputLabel for="nombre" />
+				<h:inputText id="nombre" label="modulo.nombre" required="true"
+					value="#{botonModificarModulosVista.nombre}" />
+			</p:column>
+			<p:column headerText="Duración">
+				<h:outputLabel for="duracion" />
+				<h:inputText id="duracion" label="modulo.duracion" required="true"
+					value="#{botonModificarModulosVista.duracion}" />
+			</p:column>
+			<p:column headerText="Curso">
+				<h:outputLabel for="curso" />
+				<h:inputText id="curso" label="modulo.curso" required="true"
+					value="#{botonModificarModulosVista.curso}" />
+			</p:column>
+		</p:dataTable>
+		<br/>
+		<p:commandLink id="modificar"
+					action="ConfirmarActualizarModulo.xhtml"
+					actionListener="#{botonModificarModulosVista.generarNuevoObjetoAPartirDeRegistro()}"
+					ajax="false" onclick="PF('carga').show()">
+					<h:outputText value="Enviar" />
+				</p:commandLink>
+
+	</h:form>
+
+	<p:dialog header="Cargando..." widgetVar="carga" modal="true"
+		resizable="false">
+		<h:panelGrid id="greeting" columns="1" cellpadding="4">
+			<h:outputText value="Cargando..." />
+		</h:panelGrid>
+	</p:dialog>
+</h:body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="es.fpbasics.mapper.ModuloMapper">
+
+	<update id="modificarRegistroDeLaTablaModulos">
+		UPDATE MODULOS
+		SET NOMBRE = #{modulo.nombre},
+			DURACION = #{modulo.duracion},
+			CURSO = #{modulo.curso}
+		WHERE ID_MODULO = #{modulo.idModulos} 
+	</update>
+	<!-- General -->
+	<sql id="baseSelectDocumento">
+		SELECT * FROM MODULOS WHERE 1=1
+	</sql>
+
+	<select id="consultarTodosLosRegistrosDeLaTablaModulos" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>
+	</select>
+	
+	<!-- Para acceso por la tabla Resultados_Aprendizaje, tambien para Bloques y para Modificacion -->
+	<select id="consultarRegistrosDeLaTablaModulosPorIdModulo" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND ID_MODULO=#{idModulo}
+
+	</select>
+	
+	<select id="consultarRegistrosDeLaTablaModuloFiltrado" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND (NOMBRE LIKE #{filtro} OR CURSO LIKE #{filtro})
+
+	</select>
+
+	<resultMap id="crearRegistro" type="es.fpbasics.modelo.TablaModulos">
+		<constructor>
+			<idArg column="ID_MODULO" javaType="Integer" />
+			<arg column="NOMBRE" javaType="String" />
+			<arg column="DURACION" javaType="Integer" />
+			<arg column="CURSO" javaType="String" />
+		</constructor>
+	</resultMap>
+
+    
+</mapper>

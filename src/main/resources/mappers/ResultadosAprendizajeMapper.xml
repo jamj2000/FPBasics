@@ -1,0 +1,48 @@
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="es.fpbasics.mapper.ResultadoAprendizajeMapper">
+
+	<update id="modificarRegistroDeLaTablaResultadosAprendizaje">
+		UPDATE RESULTADOS_APRENDIZAJE
+		SET DESCRIPCION = #{resultadoAprendizaje.descripcion}
+		WHERE ID_RESULTADOS = #{resultadoAprendizaje.idResultados} AND
+		ID_MODULO = #{resultadoAprendizaje.idModulo}
+	</update>
+	
+	<!-- General -->
+	<sql id="baseSelectDocumento">
+		SELECT * FROM RESULTADOS_APRENDIZAJE WHERE 1=1
+	</sql>
+
+	<select id="consultarTodosLosRegistrosDeLaTablaResultadoAprendizaje" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>
+
+	</select>
+	
+	
+	<!-- Para acceso por la tabla Modulo -->
+	<select id="consultarRegistrosDeLaTablaResultadoAprendizajePorIdModulo" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_MODULO=#{idModulo}
+
+	</select>
+	
+	
+	<!-- Para modificacion -->
+	<select id="consultarRegistrosDeLaTablaResultadoAprendizajePorIdModuloYIdResultados" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/> AND ID_MODULO=#{idModulo} AND ID_RESULTADOS=#{idResultados}
+
+	</select>
+	
+	<select id="consultarRegistrosDeLaTablaResultadoAprendizajeFiltrado" resultMap="crearRegistro">
+		<include refid="baseSelectDocumento"/>AND (DESCRIPCION LIKE #{filtro})
+
+	</select>
+
+	<resultMap id="crearRegistro" type="es.fpbasics.modelo.TablaResultadosAprendizaje">
+		<constructor>
+			<idArg column="ID_RESULTADOS" javaType="Integer" />
+			<arg column="ID_MODULO" javaType="Integer" />
+			<arg column="DESCRIPCION" javaType="String" />
+		</constructor>
+	</resultMap>
+
+</mapper>
