@@ -8,8 +8,8 @@ services:
         depends_on:
             - sqlserver
     sqlserver:
-#        image: "microsoft/mssql-server-linux:2017-latest"
-        image: "sqlserver:fpbasics"
+        image: "microsoft/mssql-server-linux:2017-latest"
+#        image: "sqlserver:fpbasics"
         environment:
             SA_PASSWORD: "Temporal22"
             ACCEPT_EULA: "Y"
