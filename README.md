@@ -15,6 +15,8 @@ que fue realizado por los siguientes alumnos:
 
 El proyecto ha sido modificado para desplegarlo en **contenedores docker**. Sirve como material didáctico para el módulo Despliegue de Aplicaciones Web de 2º DAW del curso 2018-19.
 
+La documentación de este proyecto está accesible en [este enlace](docs).
+
 ## Software utilizado
 
 ![Software](imgs/software.png)
