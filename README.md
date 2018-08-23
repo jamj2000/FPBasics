@@ -21,5 +21,15 @@ La documentación de este proyecto está accesible en [este enlace](docs).
 
 ![Software](imgs/software.png)
 
+
 ## Despliegue local con contenedores docker
 
+A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de Aplicaciones Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
+
+Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
+
+- https://hub.docker.com/_/tomcat/ . Usaremos el **tag 8.0-jre8**
+- https://hub.docker.com/r/microsoft/mssql-server-linux/ . Usaremos el **tag 2017-latest**
+
+
+### Pasos a seguir
