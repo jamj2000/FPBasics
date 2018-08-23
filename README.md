@@ -113,6 +113,10 @@ Este comando descargará las imágenes indicadas anteriormente y creará un cont
 
 ![docker-compose up -d](imgs/docker-compose-up.png)
 
+Deberían haberse bajado las imágenes y lanzado 2 contenedores, con nombres:
+
+- fpbasics_tomcat_1
+- fpbasics_sqlserver_1
 
 **AVISO:** Las 2 imágenes ocupan un total de unos 2 GB aproximadamente.
 
@@ -129,13 +133,57 @@ Con el comando `docker images` podemos ver las imágenes descargadas en nuestro 
 ![tomcat local](imgs/tomcat-local.png)
 
 
-8) 
+8) Podemos comprobar que necesitamos autenticación para acceder a `Server Status`, `Manager App` y `Host Manager`.
 
-tomcat-manager.png
+Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
-tomcat-autenticacion.png
+- Entramos en el contenedor
+  ```
+  docker  exec  -it  fpbasics_tomcat_1  bash
+  ```
 
-tomcat-gestor-aplicaciones.png
+- Editamos el archivo `/usr/local/tomcat/conf/tomcat-users.xml`
+  Puesto que el contenedor no tiene instalado ningún editor de texto, instalaremos `nano` dentro del contenedor.
+  ![edit tomcat-users](imgs/tomcat-edit-tomcat-users.png)
+  
+  
+  Y luego el final del archivo debe quedar así:
+  ![save tomcat-users](imgs/tomcat-save-tomcat-users.png)
+  
+    
+  Las líneas e insertar son:
+  ```xml
+  <role rolename="manager-gui"/>
+  <role rolename="admin-gui"/>
+  <user username="tomcat" password="tomcat" roles="manager-gui,admin-gui"/>
+  ```  
+
+9) Salimos del contenedor. 
+   Es aconsejable guardar los cambios hechos en el contenedor en una nueva imagen. La llamaré `tomcat:fpbasics`. Así en un futuro podré crear contenedores nuevos a partir de la nueva imagen, que ya tendrá los cambios previos.
+   
+   Para crear la nueva imagen a partir de un contenedor modificado hacemos:
+   ```
+   docker  commit  fpbasics_tomcat_1  tomcat:fpbasics
+   ```
+   
+   ![docker commit](imgs/tomcat-commit.png)
+
+10) Reiniciamos el contenedor.
+   
+   ```
+   docker  restart  fpbasics_tomcat_1
+   ```
+   
+11) Refrescamos la página `localhost:8080` y entramos en `Manager App` con el usuario y clave configurados anteriormente.
+
+ ![tomcat manager](imgs/tomcat-manager.png)
+
+ ![tomcat autenticación](imgs/tomcat-autenticacion.png)
+
+
+12) Si todo ha ido bien veremos el `Gestor de Aplicaciones`
+
+  ![tomcat gestor de aplicaciones](imgs/tomcat-gestor-aplicaciones.png)
 
 
 ```bash
