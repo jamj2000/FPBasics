@@ -61,17 +61,13 @@ Debe apareceer algo parecido a lo siguiente:
 ![mvn](imgs/maven-goals.png)
 
 
-Nos aparecen bastentes metas:
+Nos aparecen bastantes metas:
 
 `validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
 
 Ahora mismo nos interesa la meta `package`.
 
-4) Ejecutamos la me
-
-
-
-ta (goal) para generar un paquete
+4) Ejecutamos la meta para generar un paquete
 
 ```bash
 mvn  package
@@ -231,7 +227,7 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
   
   ![fpbasics desplegado 1](imgs/sqlserver-intro-datos.png)
  
-  > NOTA: Da algunos avisos, puesto los datos están incompletos.
+  > NOTA: Da algunos avisos, puesto que los datos están incompletos.
   
 
 16) Salimos del contenedor. 
@@ -260,7 +256,7 @@ Para ello detenemos los contenedores previos:
 docker-compose  down
 ```
 
-Y lanzamos contenedores desde las imágenes modificadas:
+Y lanzamos los contenedores desde las imágenes modificadas:
 
 ```bash
 docker-compose -f docker-compose.fpbasics.yml  up  -d
