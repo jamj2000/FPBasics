@@ -1,3 +1,8 @@
+SUBIDA A DOCKERHUB
+==================
+
+He subido las imágenes modificadas a mi cuenta en DockerHub. Los comandos han sido:
+
 docker tag tomcat:fpbasics     jamj2000/tomcat:fpbasics            
 docker tag sqlserver:fpbasics  jamj2000/sqlserver:fpbasics
 docker login
