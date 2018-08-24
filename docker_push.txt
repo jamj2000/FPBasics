@@ -8,3 +8,7 @@ docker tag sqlserver:fpbasics  jamj2000/sqlserver:fpbasics
 docker login
 docker push jamj2000/tomcat:fpbasics
 docker push jamj2000/sqlserver:fpbasics
+
+Para desplegar
+
+docker-compose -f docker-compose.fpbasics.yml up -d
