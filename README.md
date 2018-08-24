@@ -250,3 +250,18 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
   ![fpbasics desplegado 3](imgs/tomcat-fpbasics3.png)
 
 
+18) **BONUS**
+
+Si utilizamos el archivo `docker-compose.fpbasics.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
+
+Para ello detenemos los contenedores previos:
+
+```bash
+docker-compose  down
+```
+
+Y lanzamos contenedores desde las imágenes modificadas:
+
+```bash
+docker-compose -f docker-compose.fpbasics.yml  up  -d
+```
