@@ -13,3 +13,5 @@ services:
         environment:
             SA_PASSWORD: "Temporal22"
             ACCEPT_EULA: "Y"
+        volumes:
+            - ./docs/:/data
