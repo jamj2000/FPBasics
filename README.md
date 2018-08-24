@@ -78,6 +78,8 @@ mvn  package
 ```
 ![mvn package](imgs/maven-package.png)
 
+Esto debería crear una carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+
 ![tomcat archivo war](imgs/tomcat-archivo-war.png)
 
 
@@ -101,6 +103,9 @@ services:
         environment:
             SA_PASSWORD: "Temporal22"
             ACCEPT_EULA: "Y"
+        volumes:
+            ./docs/:/data
+
 ```
 
 6) Ejecutamos 
@@ -137,7 +142,7 @@ Con el comando `docker images` podemos ver las imágenes descargadas en nuestro 
 
 Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
-- Entramos en el contenedor
+- Entramos en el contenedor de tomcat
   ```
   docker  exec  -it  fpbasics_tomcat_1  bash
   ```
@@ -166,11 +171,11 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
    docker  commit  fpbasics_tomcat_1  tomcat:fpbasics
    ```
    
-   ![docker commit](imgs/tomcat-commit.png)
+   ![tomcat commit](imgs/tomcat-commit.png)
 
 10) Reiniciamos el contenedor.
    
-   ```
+   ```bash
    docker  restart  fpbasics_tomcat_1
    ```
    
@@ -186,27 +191,62 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
   ![tomcat gestor de aplicaciones](imgs/tomcat-gestor-aplicaciones.png)
 
 
-```bash
-docker run -d -p 8080:8080 --name tomcat tomcat:8.0-jre8
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Temporal22" --name sqlserver -v /ruta/absoluta/scripts:/data -p 1433:1433 -d microsoft/mssql-server-linux:2017-latest
-```
+13) Desplegamos el archivo `FPBasics-0.0.1.war`
 
-Entramos en el contenedor `sqlserver` 
+  Nos vamos a la sección `Archivo WAR a desplegar` y pulsamos en `Seleccionar archivo`.
+  ![tomcat desplegar](imgs/tomcat-desplegar.png)
 
-```bash
-docker exec -it sqlserver bash
-cd /data
-/opt/mssql-tools/bin/sqlcmd -U SA -P Curso2017-18 -i CrearTablas.sql
-/opt/mssql-tools/bin/sqlcmd -U SA -P Curso2017-18 -i InsertarDatos.sql
-```
+  Buscamos el archivo en la carpeta `target`
+  ![tomcat archivo war](imgs/tomcat-archivo-war.png)
+
+  Pulsamos en el botón `Desplegar` y nos debe aparecer en la sección `Aplicaciones`.  
+  ![tomcat desplegar proyecto](imgs/tomcat-desplegar-proyecto.png)
+  
+  Si pulsamos en dicho enlace debemos ver la aplicación desplegada.
+
+14) Accedemos a la aplicación. La clave de acceso es `usuario`
+
+  ![fpbasics desplegado 1](imgs/tomcat-fpbasics1.png)
+
+  ![fpbasics desplegado 2](imgs/tomcat-fpbasics2.png)
+
+15) ¿Y los datos? 
+   El contenedor `fpbasics_sqlserver_1` no tiene datos introducidos. Así que la aplicación dará una excepción cuando intentemos consultar algunas de las tablas.
+  
+Para solucionar esto debemos modificar el contenedor. Los pasos son:
+
+- Entramos en el contenedor de sqlserver
+  ```bash
+  docker  exec  -it  fpbasics_sqlserver_1  bash
+  ```
+
+- Ejecutamos los scripts `CrearTablas.sql` e `InsertarDatos.sql` con el comando `sqlcmd`.
+
+  ```bash
+  cd /data 
+  ls
+  /opt/mssql-tools/bin/sqlcmd -U SA -P Temporal22 -i CrearTablas.sql
+  /opt/mssql-tools/bin/sqlcmd -U SA -P Temporal22 -i InsertarDatos.sql
+  ```
+  
+  ![fpbasics desplegado 1](imgs/sqlserver-intro-datos.png)
+ 
+  > NOTA: Da algunos avisos, puesto los datos están incompletos.
+  
+
+16) Salimos del contenedor. 
+   Es aconsejable guardar los cambios hechos en el contenedor en una nueva imagen. La llamaré `sqlserver:fpbasics`. Así en un futuro podré crear contenedores nuevos a partir de la nueva imagen, que ya tendrá los cambios previos.   
+   
+   Para crear la nueva imagen a partir de un contenedor modificado hacemos:
+   
+   ```bash
+   docker  commit  fpbasics_sqlserver_1  sqlserver:fpbasics
+   ```     
+   ![sqlserver commit](imgs/sqlserver-commit.png)
 
 
-```
+17)  Resultado final
 
-tomcat-desplegar.png
-tomcat-desplegar-proyecto.png
-tomcat-fpbasics1.png
-tomcat-fpbasics2.png
-tomcat-fpbasics3.png
+  ![fpbasics desplegado 3](imgs/tomcat-fpbasics3.png)
 
-```
+
