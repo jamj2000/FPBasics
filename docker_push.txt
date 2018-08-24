@@ -1,0 +1,5 @@
+docker tag tomcat:fpbasics     jamj2000/tomcat:fpbasics            
+docker tag sqlserver:fpbasics  jamj2000/sqlserver:fpbasics
+docker login
+docker push jamj2000/tomcat:fpbasics
+docker push jamj2000/sqlserver:fpbasics
