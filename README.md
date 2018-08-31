@@ -22,9 +22,9 @@ La documentación de este proyecto está accesible en [este enlace](docs).
 ![Software](imgs/software.png)
 
 
-## Despliegue local con contenedores docker
+## Despliegue local en Tomcat+SQLServer con contenedores docker
 
-A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de Aplicaciones Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
+A continuación se muestran los pasos para desplegar la aplicación en el **Contenedor de servlets y servidor web Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
 
 Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
 
@@ -199,6 +199,11 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
   ![tomcat desplegar proyecto](imgs/tomcat-desplegar-proyecto.png)
   
   Si pulsamos en dicho enlace debemos ver la aplicación desplegada.
+  
+  Para actualizar la nueva imagen a partir del contenedor modificado hacemos:
+  ```
+  docker  commit  fpbasics_tomcat_1  tomcat:fpbasics
+  ```
 
 14) Accedemos a la aplicación. La clave de acceso es `usuario`
 
@@ -248,7 +253,7 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
 18) **BONUS**
 
-Si utilizamos el archivo `docker-compose.fpbasics.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
+Si utilizamos el archivo `docker-compose.tomcat.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
 
 Para ello detenemos los contenedores previos:
 
@@ -259,5 +264,171 @@ docker-compose  down
 Y lanzamos los contenedores desde las imágenes modificadas:
 
 ```bash
-docker-compose -f docker-compose.fpbasics.yml  up  -d
+docker-compose -f docker-compose.tomcat.yml  up  -d
 ```
+
+
+## Despliegue local en WildFly+SQLServer con contenedores docker
+
+A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de aplicaciones WildFly** (Version 8.2.1.Final). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
+
+Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
+
+- https://hub.docker.com/r/jboss/wildfly/ . Usaremos el **tag 8.2.1.Final**
+- https://hub.docker.com/r/jamj2000/sqlserver/ . Usaremos el **tag fpbasics** (creado previamente)
+
+
+### Pasos a seguir
+
+Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 16.04 y en Ubuntu 18.04.
+
+1) Instalamos el software básico
+
+```bash
+sudo  apt  install  docker.io  docker-compose  openjdk-8-jdk  openjdk-8-jre  maven  git
+```
+
+2) Descargamos código fuente del proyecto y entramos en la carpeta
+
+```bash
+git  clone  https://github.com/jamj2000/FPBasics.git
+cd  FPBasics
+```
+
+3) Probamos maven
+
+```bash
+mvn
+```
+
+Debe apareceer algo parecido a lo siguiente:
+
+![mvn](imgs/maven-goals.png)
+
+
+Nos aparecen bastantes metas:
+
+`validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
+
+Ahora mismo nos interesa la meta `package`.
+
+4) Ejecutamos las metas para limpiar y generar nuevo paquete según el archivo `pom.wildfly.xml`.
+
+```bash
+mvn  clean  package  -f pom.wildfly.xml 
+```
+Necesitamos usar el archivo `pom.wildfly.xml` en lugar del `pom.xml` original, puesto que WildFly ya dispone de algunos artefactos que no es necesario incorporar. En concreto hemos añadido la línea `<scope>provided</scope>` a los artefactos jsf-api y jsf-impl. Los archivos .jar correspondientes se generan y almacenan en `target/FPBasics-0.0.1/WEB-INF/lib/`.
+
+![mvn clean package](imgs/mvn-wildfly-package.png) 
+
+Esto debería eliminar y volver a crear la carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+
+![tomcat archivo war](imgs/tomcat-archivo-war.png)
+
+
+5) Comprobamos que el archivo `docker-compose.wildfly.yml` tiene el siguiente contenido: 
+
+```
+cat  docker-compose.wildfly.yml
+```
+
+**docker-compose.wildfly.yml**
+
+```yaml
+version: "2"
+services:
+    wildfly:
+        build:
+             context: .
+             dockerfile: Dockerfile.wildfly
+        image: jamj2000/wildfly:fpbasics
+        ports:
+            - "8080:8080"
+        depends_on:
+            - sqlserver
+    sqlserver:
+        image: "jamj2000/sqlserver:fpbasics"
+        environment:
+            SA_PASSWORD: "Temporal22"
+            ACCEPT_EULA: "Y"
+```
+
+En el archivo anterior indicamos que vamos a crear la imagen `jamj2000/wildfly` y para ello usaremos el archivo `Dockerfile.wildfly`, que tiene el siguiente contenido:
+
+**Dockerfile.wildfly**
+```
+FROM  jboss/wildfly:8.2.1.Final
+ADD  target/FPBasics-0.0.1.war  /opt/jboss/wildfly/standalone/deployments/
+```
+
+Utilizando la imagen `jboss/wildfly:8.2.1.Final`, vamos a copiar el archivo `target/FPBasics-0.0.1.war` dentro de la carpeta   `/opt/jboss/wildfly/standalone/deployments/` de dicha imagen. Esto nos servirá para crear la nueva imagen `jamj2000/wildfly:fpbasics` que habíamos indicado previamente en el archivo docker-compose.wildfly.yml.
+
+
+6) Para generar la imagen previa, descargar las imágenes que nos falten y lanzar los 2 contenedores necesarios, ejecutamos 
+
+```
+docker-compose  -f docker-compose.wildfly.yml  up  -d
+```
+
+Es importante escribir las opciones y argumentos en el orden que se indica previamente. Como hemos dicho para realizar todo el trabajo seguiremos las indicaciones del archivo `docker-compose.wildfly.yml`. 
+
+**AVISO: Asegurate de parar cualquier servicio que tengas a la escucha en el puerto 8080, como Tomcat. WildFly utiliza también el puerto 8080.**
+
+Para eliminar los contenedores previos, en el caso de tenerlos:
+
+```bash
+docker-compose  rm  fpbasics_tomcat_1  -f
+docker-compose  rm  fpbasics_sqlserver_1  -f
+```
+
+No te preocupes, no hemos borrado las imágenes del disco, por tanto en cualquier momento podríamos volver a lanzarlos.
+
+
+![docker-compose up](docker-wildfly.png)
+
+Deberían haberse bajado las imágenes `jboss/wildfly:8.2.1.Final` y `jamj2000/sqlserver:fpbasics`, en caso de no tenerlas en disco ya, haberse creado la imagen `jamj2000/wildfly:fpbasics` y lanzado 2 contenedores, con nombres:
+
+- fpbasics_wildfly_1
+- fpbasics_sqlserver_1
+
+**AVISO:** Las 2 imágenes ocupan un total de unos 2.2 GB aproximadamente.
+
+Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. A tí deberían aparecerte al menos las siguientes:
+
+- `jboss/wildfly:8.2.1.Final` (610MB)
+- `microsoft/mssql-server-linux:2017-latest` (1.44GB)
+
+
+7) Si todo ha ido bien, abriremos la URL `localhost:8080` en el navegador y veremos lo siguiente:
+
+![wildfly local](imgs/wildfly-home.png)
+
+
+
+8) Accedemos a la aplicación. La clave de acceso es `usuario`
+
+  ![fpbasics desplegado](imgs/wildfly-fpbasics.png)
+
+
+9) ¿Y los datos? 
+   El contenedor `fpbasics_sqlserver_1` que tenemos se basa en una imagen que habíamos modificado previamente y la cual contiene los datos. Por tanto este problema está resuelto.
+  
+  No obstante podemos asegurarnos, entrando al contenedor y usando `sqlcmd` para realizar consultas.
+
+  - Entramos en el contenedor de sqlserver
+  ```bash
+  docker  exec  -it  fpbasics_sqlserver_1  bash
+  ```
+
+  - Ejecutamos el comando `sqlcmd`.
+
+  ```bash
+  /opt/mssql-tools/bin/sqlcmd -U SA -P Temporal22 
+  
+  ```
+ 
+10) **BONUS**
+
+  Desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/) puedes bajarte las imágenes modificadas.
+
+
