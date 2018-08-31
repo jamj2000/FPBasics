@@ -144,14 +144,17 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   ```
 
   - Editamos el archivo `/usr/local/tomcat/conf/tomcat-users.xml`. Puesto que el contenedor no tiene instalado ningún editor de texto, instalaremos `nano` dentro del contenedor.
+  
   ![edit tomcat-users](imgs/tomcat-edit-tomcat-users.png)
   
   
   Y luego el final del archivo debe quedar así:
+  
   ![save tomcat-users](imgs/tomcat-save-tomcat-users.png)
   
     
   Las líneas e insertar son:
+ 
   ```xml
   <role rolename="manager-gui"/>
   <role rolename="admin-gui"/>
@@ -385,7 +388,7 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   No te preocupes, no hemos borrado las imágenes del disco, por tanto en cualquier momento podríamos volver a lanzarlos.
 
 
-  ![docker-compose up](docker-wildfly.png)
+  ![docker-compose up](imgs/docker-wildfly.png)
 
   Deberían haberse bajado las imágenes `jboss/wildfly:8.2.1.Final` y `jamj2000/sqlserver:fpbasics`, en caso de no tenerlas en disco ya, haberse creado la imagen `jamj2000/wildfly:fpbasics` y lanzado 2 contenedores, con nombres:
 
@@ -427,7 +430,7 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   ```
  
   - Realizamos las consultas.
-  ![SQL Server consultas](sqlserver-consultas.png)
+  ![SQL Server consultas](imgs/sqlserver-consultas.png)
  
  
 10) **BONUS**
