@@ -1,0 +1,16 @@
+version: "2"
+services:
+    wildfly:
+        build:
+             context: .
+             dockerfile: Dockerfile.wildfly
+        image: jamj2000/wildfly:fpbasics
+        ports:
+            - "8080:8080"
+        depends_on:
+            - sqlserver
+    sqlserver:
+        image: "jamj2000/sqlserver:fpbasics"
+        environment:
+            SA_PASSWORD: "Temporal22"
+            ACCEPT_EULA: "Y"
