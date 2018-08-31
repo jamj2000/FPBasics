@@ -39,112 +39,111 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
 
 1) Instalamos el software básico
 
-```bash
-sudo  apt  install  docker.io  docker-compose  maven  git
-```
+  ```bash
+  sudo  apt  install  docker.io  docker-compose  maven  git
+  ```
 
 2) Descargamos código fuente del proyecto y entramos en la carpeta
 
-```bash
-git  clone  https://github.com/jamj2000/FPBasics.git
-cd  FPBasics
-```
+  ```bash
+  git  clone  https://github.com/jamj2000/FPBasics.git
+  cd  FPBasics
+  ```
 
 3) Probamos maven
 
-```bash
-mvn
-```
+  ```bash
+  mvn
+  ```
 
-Debe apareceer algo parecido a lo siguiente:
+  Debe apareceer algo parecido a lo siguiente:
 
-![mvn](imgs/maven-goals.png)
+  ![mvn](imgs/maven-goals.png)
 
 
-Nos aparecen bastantes metas:
+ Nos aparecen bastantes metas:
 
-`validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
+  `validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
 
-Ahora mismo nos interesa la meta `package`.
+  Ahora mismo nos interesa la meta `package`.
 
 4) Ejecutamos la meta para generar un paquete
 
-```bash
-mvn  package
-```
-![mvn package](imgs/maven-package.png)
+  ```bash
+  mvn  package
+  ```
 
-Esto debería crear una carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+  ![mvn package](imgs/maven-package.png)
 
-![tomcat archivo war](imgs/tomcat-archivo-war.png)
+  Esto debería crear una carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+
+  ![tomcat archivo war](imgs/tomcat-archivo-war.png)
 
 
 5) Comprobamos que el archivo `docker-compose.yml` tiene el siguiente contenido: 
 
-```
-cat  docker-compose.yml
-```
+  ```
+  cat  docker-compose.yml
+  ```
 
-```yaml
-version: "2"
-services:
-    tomcat:
-        image: "tomcat:8.0-jre8"
-        ports:
-            - "8080:8080"
-        depends_on:
-            - sqlserver
-    sqlserver:
-        image: "microsoft/mssql-server-linux:2017-latest"
-        environment:
-            SA_PASSWORD: "Temporal22"
-            ACCEPT_EULA: "Y"
-        volumes:
-            ./docs/:/data
-
-```
+  ```yaml
+  version: "2"
+  services:
+      tomcat:
+          image: "tomcat:8.0-jre8"
+          ports:
+              - "8080:8080"
+          depends_on:
+              - sqlserver
+      sqlserver:
+          image: "microsoft/mssql-server-linux:2017-latest"
+          environment:
+              SA_PASSWORD: "Temporal22"
+              ACCEPT_EULA: "Y"
+          volumes:
+              ./docs/:/data
+  ```
 
 6) Ejecutamos 
 
-```
-docker-compose  up  -d
-```
+  ```
+  docker-compose  up  -d
+  ```
 
-Este comando descargará las imágenes indicadas anteriormente y creará un contenedor por cada una de ellas. 
+  Este comando descargará las imágenes indicadas anteriormente y creará un contenedor por cada una de ellas. 
 
-![docker-compose up -d](imgs/docker-compose-up.png)
+  ![docker-compose up -d](imgs/docker-compose-up.png)
 
-Deberían haberse bajado las imágenes y lanzado 2 contenedores, con nombres:
+  Deberían haberse bajado las imágenes y lanzado 2 contenedores, con nombres:
 
-- fpbasics_tomcat_1
-- fpbasics_sqlserver_1
+  - fpbasics_tomcat_1
+  - fpbasics_sqlserver_1
 
-**AVISO:** Las 2 imágenes ocupan un total de unos 2 GB aproximadamente.
+  **AVISO:** Las 2 imágenes ocupan un total de unos 2 GB aproximadamente.
 
-![docker images](imgs/docker-images.png)
+  ![docker images](imgs/docker-images.png)
 
-Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. En la imagen anterior se pueden ver las imágenes que tengo yo en el disco de mi servidor. A tí deberían aparecerte las siguientes:
+  Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. En la imagen anterior se pueden ver las imágenes que tengo yo en el disco de mi servidor. A tí deberían aparecerte las siguientes:
 
-- `tomcat:8.0-jre8` (463MB)
-- `microsoft/mssql-server-linux:2017-latest` (1.44GB)
+  - `tomcat:8.0-jre8` (463MB)
+  - `microsoft/mssql-server-linux:2017-latest` (1.44GB)
 
 
 7) Si todo ha ido bien, abriremos la URL `localhost:8080` en el navegador y veremos lo siguiente:
 
-![tomcat local](imgs/tomcat-local.png)
+  ![tomcat local](imgs/tomcat-local.png)
 
 
 8) Podemos comprobar que necesitamos autenticación para acceder a `Server Status`, `Manager App` y `Host Manager`.
 
-Para solucionar esto debemos modificar el contenedor. Los pasos son:
+  Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
-- Entramos en el contenedor de tomcat
+  - Entramos en el contenedor de tomcat
   ```
   docker  exec  -it  fpbasics_tomcat_1  bash
   ```
 
-- Editamos el archivo `/usr/local/tomcat/conf/tomcat-users.xml`
-  Puesto que el contenedor no tiene instalado ningún editor de texto, instalaremos `nano` dentro del contenedor.
+  - Editamos el archivo `/usr/local/tomcat/conf/tomcat-users.xml`. Puesto que el contenedor no tiene instalado ningún editor de texto, instalaremos `nano` dentro del contenedor.
   ![edit tomcat-users](imgs/tomcat-edit-tomcat-users.png)
   
   
@@ -177,9 +176,9 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
    
 11) Refrescamos la página `localhost:8080` y entramos en `Manager App` con el usuario y clave configurados anteriormente.
 
- ![tomcat manager](imgs/tomcat-manager.png)
+  ![tomcat manager](imgs/tomcat-manager.png)
 
- ![tomcat autenticación](imgs/tomcat-autenticacion.png)
+  ![tomcat autenticación](imgs/tomcat-autenticacion.png)
 
 
 12) Si todo ha ido bien veremos el `Gestor de Aplicaciones`
@@ -190,15 +189,17 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
 13) Desplegamos el archivo `FPBasics-0.0.1.war`
 
   Nos vamos a la sección `Archivo WAR a desplegar` y pulsamos en `Seleccionar archivo`.
-  ![tomcat desplegar](imgs/tomcat-desplegar.png)
+  ![tomcat desplegar](imgs/tomcat-seleccionar-archivo.png)
 
   Buscamos el archivo en la carpeta `target`
   ![tomcat archivo war](imgs/tomcat-archivo-war.png)
 
   Pulsamos en el botón `Desplegar` y nos debe aparecer en la sección `Aplicaciones`.  
+  ![tomcat desplegar](imgs/tomcat-desplegar.png)
+
+  Si pulsamos en dicho enlace debemos ver la aplicación desplegada.
   ![tomcat desplegar proyecto](imgs/tomcat-desplegar-proyecto.png)
   
-  Si pulsamos en dicho enlace debemos ver la aplicación desplegada.
   
   Para actualizar la nueva imagen a partir del contenedor modificado hacemos:
   ```
@@ -214,15 +215,14 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
 15) ¿Y los datos? 
    El contenedor `fpbasics_sqlserver_1` no tiene datos introducidos. Así que la aplicación dará una excepción cuando intentemos consultar algunas de las tablas.
   
-Para solucionar esto debemos modificar el contenedor. Los pasos son:
+  Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
-- Entramos en el contenedor de sqlserver
+  - Entramos en el contenedor de sqlserver
   ```bash
   docker  exec  -it  fpbasics_sqlserver_1  bash
   ```
 
-- Ejecutamos los scripts `CrearTablas.sql` e `InsertarDatos.sql` con el comando `sqlcmd`.
-
+  - Ejecutamos los scripts `CrearTablas.sql` e `InsertarDatos.sql` con el comando `sqlcmd`.
   ```bash
   cd /data 
   ls
@@ -253,19 +253,19 @@ Para solucionar esto debemos modificar el contenedor. Los pasos son:
 
 18) **BONUS**
 
-Si utilizamos el archivo `docker-compose.tomcat.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
+  Si utilizamos el archivo `docker-compose.tomcat.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
 
-Para ello detenemos los contenedores previos:
+  Para ello detenemos los contenedores previos:
 
-```bash
-docker-compose  down
-```
+  ```bash
+  docker-compose  down
+  ```
+ 
+  Y lanzamos los contenedores desde las imágenes modificadas:
 
-Y lanzamos los contenedores desde las imágenes modificadas:
-
-```bash
-docker-compose -f docker-compose.tomcat.yml  up  -d
-```
+  ```bash
+  docker-compose -f docker-compose.tomcat.yml  up  -d
+  ```
 
 
 ## Despliegue local en WildFly+SQLServer con contenedores docker
@@ -280,129 +280,129 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 
 ### Pasos a seguir
 
-Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 16.04 y en Ubuntu 18.04.
+  Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 16.04 y en Ubuntu 18.04.
 
 1) Instalamos el software básico
 
-```bash
-sudo  apt  install  docker.io  docker-compose  openjdk-8-jdk  openjdk-8-jre  maven  git
-```
+  ```bash
+  sudo  apt  install  docker.io  docker-compose  openjdk-8-jdk  openjdk-8-jre  maven  git
+  ```
 
 2) Descargamos código fuente del proyecto y entramos en la carpeta
 
-```bash
-git  clone  https://github.com/jamj2000/FPBasics.git
-cd  FPBasics
-```
+  ```bash
+  git  clone  https://github.com/jamj2000/FPBasics.git
+  cd  FPBasics
+  ```
 
 3) Probamos maven
 
-```bash
-mvn
-```
+  ```bash
+  mvn
+  ```
 
-Debe apareceer algo parecido a lo siguiente:
+  Debe apareceer algo parecido a lo siguiente:
 
-![mvn](imgs/maven-goals.png)
+  ![mvn](imgs/maven-goals.png)
 
 
-Nos aparecen bastantes metas:
+  Nos aparecen bastantes metas:
 
-`validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
+  `validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package,` **`package`** `, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean,` **`clean`**, `post-clean, pre-site, site, post-site, site-deploy`
 
-Ahora mismo nos interesa la meta `package`.
+  Ahora mismo nos interesan las metas `clean` y `package`.
 
 4) Ejecutamos las metas para limpiar y generar nuevo paquete según el archivo `pom.wildfly.xml`.
 
-```bash
-mvn  clean  package  -f pom.wildfly.xml 
-```
-Necesitamos usar el archivo `pom.wildfly.xml` en lugar del `pom.xml` original, puesto que WildFly ya dispone de algunos artefactos que no es necesario incorporar. En concreto hemos añadido la línea `<scope>provided</scope>` a los artefactos jsf-api y jsf-impl. Los archivos .jar correspondientes se generan y almacenan en `target/FPBasics-0.0.1/WEB-INF/lib/`.
+  ```bash
+  mvn  clean  package  -f pom.wildfly.xml 
+  ```
 
-![mvn clean package](imgs/mvn-wildfly-package.png) 
+  Necesitamos usar el archivo `pom.wildfly.xml` en lugar del `pom.xml` original, puesto que WildFly ya dispone de algunos artefactos que no es necesario incorporar. En concreto hemos añadido la línea `<scope>provided</scope>` a los artefactos jsf-api y jsf-impl. Los archivos .jar correspondientes se generan y almacenan en `target/FPBasics-0.0.1/WEB-INF/lib/`.
 
-Esto debería eliminar y volver a crear la carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+  ![mvn clean package](imgs/mvn-wildfly-package.png) 
 
-![tomcat archivo war](imgs/tomcat-archivo-war.png)
+  Esto debería eliminar y volver a crear la carpeta `target` y dentro un archivo `FPBasics-0.0.1.war`.
+
+  ![tomcat archivo war](imgs/tomcat-archivo-war.png)
 
 
 5) Comprobamos que el archivo `docker-compose.wildfly.yml` tiene el siguiente contenido: 
 
-```
-cat  docker-compose.wildfly.yml
-```
+  ```
+  cat  docker-compose.wildfly.yml
+  ```
 
-**docker-compose.wildfly.yml**
+  **docker-compose.wildfly.yml**
 
-```yaml
-version: "2"
-services:
-    wildfly:
-        build:
-             context: .
-             dockerfile: Dockerfile.wildfly
-        image: jamj2000/wildfly:fpbasics
-        ports:
-            - "8080:8080"
-        depends_on:
-            - sqlserver
-    sqlserver:
-        image: "jamj2000/sqlserver:fpbasics"
-        environment:
-            SA_PASSWORD: "Temporal22"
-            ACCEPT_EULA: "Y"
-```
-
-En el archivo anterior indicamos que vamos a crear la imagen `jamj2000/wildfly` y para ello usaremos el archivo `Dockerfile.wildfly`, que tiene el siguiente contenido:
-
-**Dockerfile.wildfly**
-```
-FROM  jboss/wildfly:8.2.1.Final
-ADD  target/FPBasics-0.0.1.war  /opt/jboss/wildfly/standalone/deployments/
+  ```yaml
+  version: "2"
+  services:
+      wildfly:
+          build:
+               context: .
+               dockerfile: Dockerfile.wildfly
+          image: jamj2000/wildfly:fpbasics
+          ports:
+              - "8080:8080"
+          depends_on:
+              - sqlserver
+      sqlserver:
+          image: "jamj2000/sqlserver:fpbasics"
+          environment:
+              SA_PASSWORD: "Temporal22"
+              ACCEPT_EULA: "Y"
 ```
 
-Utilizando la imagen `jboss/wildfly:8.2.1.Final`, vamos a copiar el archivo `target/FPBasics-0.0.1.war` dentro de la carpeta   `/opt/jboss/wildfly/standalone/deployments/` de dicha imagen. Esto nos servirá para crear la nueva imagen `jamj2000/wildfly:fpbasics` que habíamos indicado previamente en el archivo docker-compose.wildfly.yml.
+  En el archivo anterior indicamos que vamos a crear la imagen `jamj2000/wildfly` y para ello usaremos el archivo `Dockerfile.wildfly`, que tiene el siguiente contenido:
+
+  **Dockerfile.wildfly**
+  ```
+  FROM  jboss/wildfly:8.2.1.Final
+  ADD  target/FPBasics-0.0.1.war  /opt/jboss/wildfly/standalone/deployments/
+  ```
+
+  Utilizando la imagen `jboss/wildfly:8.2.1.Final`, vamos a copiar el archivo `target/FPBasics-0.0.1.war` dentro de la carpeta   `/opt/jboss/wildfly/standalone/deployments/` de dicha imagen. Esto nos servirá para crear la nueva imagen `jamj2000/wildfly:fpbasics` que habíamos indicado previamente en el archivo `docker-compose.wildfly.yml`.
 
 
 6) Para generar la imagen previa, descargar las imágenes que nos falten y lanzar los 2 contenedores necesarios, ejecutamos 
 
-```
-docker-compose  -f docker-compose.wildfly.yml  up  -d
-```
+  ```
+  docker-compose  -f docker-compose.wildfly.yml  up  -d
+  ```
 
-Es importante escribir las opciones y argumentos en el orden que se indica previamente. Como hemos dicho para realizar todo el trabajo seguiremos las indicaciones del archivo `docker-compose.wildfly.yml`. 
+  Es importante escribir las opciones y argumentos en el orden que se indica previamente. Como hemos dicho para realizar todo el trabajo seguiremos las indicaciones del archivo `docker-compose.wildfly.yml`. 
 
-**AVISO: Asegurate de parar cualquier servicio que tengas a la escucha en el puerto 8080, como Tomcat. WildFly utiliza también el puerto 8080.**
+  **AVISO: Asegurate de parar cualquier servicio que tengas a la escucha en el puerto 8080, como Tomcat. WildFly utiliza también el puerto 8080.**
 
-Para eliminar los contenedores previos, en el caso de tenerlos:
+  Para eliminar los contenedores previos, en el caso de tenerlos:
 
-```bash
-docker-compose  rm  fpbasics_tomcat_1  -f
-docker-compose  rm  fpbasics_sqlserver_1  -f
-```
+   ```bash
+  docker-compose  rm  fpbasics_tomcat_1  -f
+  docker-compose  rm  fpbasics_sqlserver_1  -f
+  ```
 
-No te preocupes, no hemos borrado las imágenes del disco, por tanto en cualquier momento podríamos volver a lanzarlos.
+  No te preocupes, no hemos borrado las imágenes del disco, por tanto en cualquier momento podríamos volver a lanzarlos.
 
 
-![docker-compose up](docker-wildfly.png)
+  ![docker-compose up](docker-wildfly.png)
 
-Deberían haberse bajado las imágenes `jboss/wildfly:8.2.1.Final` y `jamj2000/sqlserver:fpbasics`, en caso de no tenerlas en disco ya, haberse creado la imagen `jamj2000/wildfly:fpbasics` y lanzado 2 contenedores, con nombres:
+  Deberían haberse bajado las imágenes `jboss/wildfly:8.2.1.Final` y `jamj2000/sqlserver:fpbasics`, en caso de no tenerlas en disco ya, haberse creado la imagen `jamj2000/wildfly:fpbasics` y lanzado 2 contenedores, con nombres:
 
-- fpbasics_wildfly_1
-- fpbasics_sqlserver_1
+  - fpbasics_wildfly_1
+  - fpbasics_sqlserver_1
 
-**AVISO:** Las 2 imágenes ocupan un total de unos 2.2 GB aproximadamente.
+  **AVISO:** Las 2 imágenes ocupan un total de unos 2.2 GB aproximadamente.
 
-Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. A tí deberían aparecerte al menos las siguientes:
+  Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. A tí deberían aparecerte al menos las siguientes:
 
-- `jboss/wildfly:8.2.1.Final` (610MB)
-- `microsoft/mssql-server-linux:2017-latest` (1.44GB)
+  - `jboss/wildfly:8.2.1.Final` (610MB)
+  - `microsoft/mssql-server-linux:2017-latest` (1.44GB)
 
 
 7) Si todo ha ido bien, abriremos la URL `localhost:8080` en el navegador y veremos lo siguiente:
 
-![wildfly local](imgs/wildfly-home.png)
-
+  ![wildfly local](imgs/wildfly-home.png)
 
 
 8) Accedemos a la aplicación. La clave de acceso es `usuario`
@@ -424,8 +424,11 @@ Con el comando `docker images` podemos ver las imágenes descargadas en nuestro 
 
   ```bash
   /opt/mssql-tools/bin/sqlcmd -U SA -P Temporal22 
-  
   ```
+ 
+  - Realizamos las consultas.
+  ![SQL Server consultas](sqlserver-consultas.png)
+ 
  
 10) **BONUS**
 
