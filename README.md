@@ -304,7 +304,7 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   mvn
   ```
 
-  Debe apareceer algo parecido a lo siguiente:
+  Debe aparecer algo parecido a lo siguiente:
 
   ![mvn](imgs/maven-goals.png)
 
@@ -374,9 +374,7 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   docker-compose  -f docker-compose.wildfly.yml  up  -d
   ```
 
-  Es importante escribir las opciones y argumentos en el orden que se indica previamente. Como hemos dicho para realizar todo el trabajo seguiremos las indicaciones del archivo `docker-compose.wildfly.yml`. 
-
-  **AVISO: Asegurate de parar cualquier servicio que tengas a la escucha en el puerto 8080, como Tomcat. WildFly utiliza también el puerto 8080.**
+  **AVISO: Antes asegurate de parar cualquier servicio que tengas a la escucha en el puerto 8080, como Tomcat. WildFly utiliza también el puerto 8080.**
 
   Para eliminar los contenedores previos, en el caso de tenerlos:
 
@@ -387,8 +385,9 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 
   No te preocupes, no hemos borrado las imágenes del disco, por tanto en cualquier momento podríamos volver a lanzarlos.
 
-
   ![docker-compose up](imgs/docker-wildfly.png)
+  
+  Es importante escribir las opciones y argumentos en el orden que se indica previamente. Como hemos dicho para realizar todo el trabajo seguiremos las indicaciones del archivo `docker-compose.wildfly.yml`. 
 
   Deberían haberse bajado las imágenes `jboss/wildfly:8.2.1.Final` y `jamj2000/sqlserver:fpbasics`, en caso de no tenerlas en disco ya, haberse creado la imagen `jamj2000/wildfly:fpbasics` y lanzado 2 contenedores, con nombres:
 
@@ -430,6 +429,7 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   ```
  
   - Realizamos las consultas.
+  
   ![SQL Server consultas](imgs/sqlserver-consultas.png)
  
  
