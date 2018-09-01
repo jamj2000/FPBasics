@@ -40,7 +40,7 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
 1) Instalamos el software básico
 
   ```bash
-  sudo  apt  install  docker.io  docker-compose  maven  git
+  sudo  apt  install  docker.io  docker-compose  openjdk-8-jdk  openjdk-8-jre  maven  git
   ```
 
 2) Descargamos código fuente del proyecto y entramos en la carpeta
