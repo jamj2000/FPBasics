@@ -161,7 +161,7 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   <user username="tomcat" password="tomcat" roles="manager-gui,admin-gui"/>
   ```  
 
-9) Salimos del contenedor. 
+9) Salimos del contenedor con el comando `exit`. 
    Es aconsejable guardar los cambios hechos en el contenedor en una nueva imagen. La llamaré `tomcat:fpbasics`. Así en un futuro podré crear contenedores nuevos a partir de la nueva imagen, que ya tendrá los cambios previos.
    
    Para crear la nueva imagen a partir de un contenedor modificado hacemos:
@@ -204,18 +204,40 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   ![tomcat desplegar proyecto](imgs/tomcat-desplegar-proyecto.png)
   
   
+
+14) Es necesario entrar en el contenedor y modificar el archivo `webapps/FPBasics-0.0.1/WEB-INF/classes/applicationContext.xml`.
+
+  ```bash
+  docker  exec  -it  fpbasics_tomcat_1  bash
+  nano webapps/FPBasics-0.0.1/WEB-INF/classes/applicationContext.xml
+  ```
+
+  [WEB-INF/classes/applicationContext.xml](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-applicationContext.xml.png)
+
+  La línea 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+  debe modificarse a 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://sqlserver:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+  Esto cambia el servidor de bases de datos. En lugar de `localhost` será `sqlserver`, que es el servicio que estamos ejecutando.
+  
+  Guardamos los cambios. Salimos del contenedor con el comando `exit`.
+
   Para actualizar la nueva imagen a partir del contenedor modificado hacemos:
   ```
   docker  commit  fpbasics_tomcat_1  tomcat:fpbasics
   ```
 
-14) Accedemos a la aplicación. La clave de acceso es `usuario`
+15) Accedemos a la aplicación. La clave de acceso es `usuario`
 
   ![fpbasics desplegado 1](imgs/tomcat-fpbasics1.png)
 
   ![fpbasics desplegado 2](imgs/tomcat-fpbasics2.png)
 
-15) ¿Y los datos? 
+16) ¿Y los datos? 
    El contenedor `fpbasics_sqlserver_1` no tiene datos introducidos. Así que la aplicación dará una excepción cuando intentemos consultar algunas de las tablas.
   
   Para solucionar esto debemos modificar el contenedor. Los pasos son:
@@ -238,7 +260,7 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   > NOTA: Da algunos avisos, puesto que los datos están incompletos.
   
 
-16) Salimos del contenedor. 
+17) Salimos del contenedor. 
    Es aconsejable guardar los cambios hechos en el contenedor en una nueva imagen. La llamaré `sqlserver:fpbasics`. Así en un futuro podré crear contenedores nuevos a partir de la nueva imagen, que ya tendrá los cambios previos.   
    
    Para crear la nueva imagen a partir de un contenedor modificado hacemos:
@@ -249,12 +271,12 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
    ![sqlserver commit](imgs/sqlserver-commit.png)
 
 
-17)  Resultado final
+18)  Resultado final
 
   ![fpbasics desplegado 3](imgs/tomcat-fpbasics3.png)
 
 
-18) **BONUS**
+19) **BONUS**
 
   Si utilizamos el archivo `docker-compose.tomcat.yml` podemos lanzar los contenedores con todos los cambios previos ya realizados. Se descargaran las imagenes con los commits desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/).
 
@@ -438,3 +460,18 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
   Desde [mi cuenta en DockerHub](https://hub.docker.com/r/jamj2000/) puedes bajarte las imágenes modificadas.
 
 
+### ANEXO: Archivos desplegados
+
+[tomcat](imgs/tree-tomcat.png)
+
+[tomcat/webapps](imgs/tree-tomcat-webapps.png)
+
+[tomcat/webapps/FPBasics](imgs/tree-tomcat-webapps-fpbasics.png)
+
+[tomcat/webapps/FPBasics/WEB-INF/lib](imgs/tree-tomcat-webapps-fpbasics-webinf-lib.png)
+
+[tomcat/webapps/FPBasics/WEB-INF/classes](imgs/tree-tomcat-webapps-fpbasics-webinf-classes.png)
+
+[tomcat/webapps/FPBasics/WEB-INF/classes/mappers](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-mappers.png)
+
+[tomcat/webapps/FPBasics/WEB-INF/classes/es/FPBasics](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-es-fpbasics.png)
