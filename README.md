@@ -212,7 +212,7 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   nano webapps/FPBasics-0.0.1/WEB-INF/classes/applicationContext.xml
   ```
 
-  [WEB-INF/classes/applicationContext.xml](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-applicationContext.xml.png)
+  ![WEB-INF/classes/applicationContext.xml](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-applicationContext.xml.png)
 
   La línea 
   ```xml
@@ -462,16 +462,16 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 
 ### ANEXO: Archivos desplegados
 
-[tomcat](imgs/tree-tomcat.png)
+![tomcat](imgs/tree-tomcat.png)
 
-[tomcat/webapps](imgs/tree-tomcat-webapps.png)
+![tomcat/webapps](imgs/tree-tomcat-webapps.png)
 
-[tomcat/webapps/FPBasics](imgs/tree-tomcat-webapps-fpbasics.png)
+![tomcat/webapps/FPBasics](imgs/tree-tomcat-webapps-fpbasics.png)
 
-[tomcat/webapps/FPBasics/WEB-INF/lib](imgs/tree-tomcat-webapps-fpbasics-webinf-lib.png)
+![tomcat/webapps/FPBasics/WEB-INF/lib](imgs/tree-tomcat-webapps-fpbasics-webinf-lib.png)
 
-[tomcat/webapps/FPBasics/WEB-INF/classes](imgs/tree-tomcat-webapps-fpbasics-webinf-classes.png)
+![tomcat/webapps/FPBasics/WEB-INF/classes](imgs/tree-tomcat-webapps-fpbasics-webinf-classes.png)
 
-[tomcat/webapps/FPBasics/WEB-INF/classes/mappers](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-mappers.png)
+![tomcat/webapps/FPBasics/WEB-INF/classes/mappers](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-mappers.png)
 
-[tomcat/webapps/FPBasics/WEB-INF/classes/es/FPBasics](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-es-fpbasics.png)
+![tomcat/webapps/FPBasics/WEB-INF/classes/es/FPBasics](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-es-fpbasics.png)
