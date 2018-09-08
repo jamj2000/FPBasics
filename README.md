@@ -465,30 +465,30 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 ### ANEXO: Archivos desplegados
 
 
-#### /usr/local/tomcat
+#### `/usr/local/tomcat`
 
 ![tomcat](imgs/tree-tomcat.png)
 
-#### /usr/local/tomcat/webapps
+#### `/usr/local/tomcat/webapps`
 
 ![tomcat/webapps](imgs/tree-tomcat-webapps.png)
 
-#### /usr/local/tomcat/FPBasics-0.0.1
+#### `/usr/local/tomcat/webapps/FPBasics-0.0.1`
 
 ![tomcat/webapps/FPBasics](imgs/tree-tomcat-webapps-fpbasics.png)
 
-#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/lib
+#### `/usr/local/tomcat/webapps/FPBasics-0.0.1/WEB-INF/lib`
 
 ![tomcat/webapps/FPBasics/WEB-INF/lib](imgs/tree-tomcat-webapps-fpbasics-webinf-lib.png)
 
-#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes
+#### `/usr/local/tomcat/webapps/FPBasics-0.0.1/WEB-INF/classes`
 
 ![tomcat/webapps/FPBasics/WEB-INF/classes](imgs/tree-tomcat-webapps-fpbasics-webinf-classes.png)
 
-#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes/mappers
+#### `/usr/local/tomcat/webapps/FPBasics-0.0.1/WEB-INF/classes/mappers`
 
 ![tomcat/webapps/FPBasics/WEB-INF/classes/mappers](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-mappers.png)
 
-#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes/es/fpbasics
+#### `/usr/local/tomcat/webapps/FPBasics-0.0.1/WEB-INF/classes/es/fpbasics`
 
 ![tomcat/webapps/FPBasics/WEB-INF/classes/es/FPBasics](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-es-fpbasics.png)
