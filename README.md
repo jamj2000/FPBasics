@@ -297,6 +297,8 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
 
 A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de aplicaciones WildFly** (Version 8.2.1.Final). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
 
+JBoss (proyecto mantenido por la comunidad de software de código abierto) ha cambiado el nombre a WildFly para evitar la confusión y diferenciar al proyecto para con soporte comercial JBoss EAP (Enterprise Application Platform). Actualmente ambos están el paraguas de RedHat.  
+
 Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
 
 - https://hub.docker.com/r/jboss/wildfly/ . Usaremos el **tag 8.2.1.Final**
@@ -462,16 +464,31 @@ Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles
 
 ### ANEXO: Archivos desplegados
 
+
+#### /usr/local/tomcat
+
 ![tomcat](imgs/tree-tomcat.png)
+
+#### /usr/local/tomcat/webapps
 
 ![tomcat/webapps](imgs/tree-tomcat-webapps.png)
 
+#### /usr/local/tomcat/FPBasics-0.0.1
+
 ![tomcat/webapps/FPBasics](imgs/tree-tomcat-webapps-fpbasics.png)
+
+#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/lib
 
 ![tomcat/webapps/FPBasics/WEB-INF/lib](imgs/tree-tomcat-webapps-fpbasics-webinf-lib.png)
 
+#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes
+
 ![tomcat/webapps/FPBasics/WEB-INF/classes](imgs/tree-tomcat-webapps-fpbasics-webinf-classes.png)
 
+#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes/mappers
+
 ![tomcat/webapps/FPBasics/WEB-INF/classes/mappers](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-mappers.png)
+
+#### /usr/local/tomcat/FPBasics-0.0.1/WEB-INF/classes/es/fpbasics
 
 ![tomcat/webapps/FPBasics/WEB-INF/classes/es/FPBasics](imgs/tree-tomcat-webapps-fpbasics-webinf-classes-es-fpbasics.png)
