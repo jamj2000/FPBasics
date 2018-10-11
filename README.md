@@ -26,7 +26,7 @@ La documentación de este proyecto está accesible en [este enlace](docs).
 
 A continuación se muestran los pasos para desplegar la aplicación en el **Contenedor de servlets y servidor web Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
 
-Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
+Para ello necesitaremos cada una de estas imágenes. Ambas están disponibles en [DockerHub](https://hub.docker.com).
 
 - https://hub.docker.com/_/tomcat/ . Usaremos el **tag 8.0-jre8**
 - https://hub.docker.com/r/microsoft/mssql-server-linux/ . Usaremos el **tag 2017-latest**
@@ -297,9 +297,9 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
 
 A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de aplicaciones WildFly** (Version 8.2.1.Final). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
 
-JBoss (proyecto mantenido por la comunidad de software de código abierto) ha cambiado el nombre a WildFly para evitar la confusión y diferenciar al proyecto para con soporte comercial JBoss EAP (Enterprise Application Platform). Actualmente ambos están el paraguas de RedHat.  
+JBoss (proyecto mantenido por la comunidad de software de código abierto) ha cambiado el nombre a WildFly para evitar la confusión y diferenciar del proyecto con soporte comercial JBoss EAP (Enterprise Application Platform). Actualmente ambos están bajo el paraguas de RedHat.  
 
-Para ello necesitaremos cada uno de estos contenedores. Ambos están disponibles en [DockerHub](https://hub.docker.com).
+Para ello necesitaremos cada una de estas imágenes. Ambas están disponibles en [DockerHub](https://hub.docker.com).
 
 - https://hub.docker.com/r/jboss/wildfly/ . Usaremos el **tag 8.2.1.Final**
 - https://hub.docker.com/r/jamj2000/sqlserver/ . Usaremos el **tag fpbasics** (creado previamente)
