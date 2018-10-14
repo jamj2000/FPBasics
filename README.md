@@ -50,6 +50,19 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   cd  FPBasics
   ```
 
+**NOTA**: Antes de proseguir deberemos comprobar el archivo `src/main/resources/applicationContext.xml`. Allí indicamos el host donde está la base de datos. La línea 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+  debe modificarse a 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://sqlserver:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+puesto que utilizaremos el SqlServer de un contenedor y no el de localhost.
+
+Está configuración también puede cambiarse una vez desplegada la aplicación. Para ello ver el paso 14 de esta guía.
+
+
 3) Probamos maven
 
   ```bash
@@ -321,6 +334,19 @@ Para ello necesitaremos cada una de estas imágenes. Ambas están disponibles en
   git  clone  https://github.com/jamj2000/FPBasics.git
   cd  FPBasics
   ```
+  
+
+**NOTA**: Antes de proseguir deberemos comprobar el archivo `src/main/resources/applicationContext.xml`. Allí indicamos el host donde está la base de datos. La línea 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+  debe modificarse a 
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://sqlserver:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+puesto que utilizaremos el SqlServer de un contenedor y no el de localhost.
+
+Está configuración también puede cambiarse una vez desplegada la aplicación. 
 
 3) Probamos maven
 
