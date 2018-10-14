@@ -50,13 +50,14 @@ Los pasos que siguen se han realizado en SO GNU/Linux. Ha funcionado en Ubuntu 1
   cd  FPBasics
   ```
 
-**NOTA**: Antes de proseguir deberemos comprobar el archivo `src/main/resources/applicationContext.xml`. Allí indicamos el host donde está la base de datos. La línea 
-  ```xml
-  <property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
-  ```
-  debe modificarse a 
+**NOTA**: Antes de continuar deberemos comprobar el archivo `src/main/resources/applicationContext.xml`. Allí indicamos el host donde está la base de datos. Debe existir la línea
+
   ```xml
   <property name="url" value="jdbc:jtds:sqlserver://sqlserver:1433/FPBASICS;instance=SQLEXPRESS" />
+  ```
+  en lugar de
+  ```xml
+  <property name="url" value="jdbc:jtds:sqlserver://localhost:1433/FPBASICS;instance=SQLEXPRESS" />
   ```
 puesto que utilizaremos el SqlServer de un contenedor y no el de localhost.
 
