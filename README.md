@@ -145,7 +145,7 @@ Está configuración también puede cambiarse una vez desplegada la aplicación.
 
   ![docker images](imgs/docker-images.png)
 
-  Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. En la imagen anterior se pueden ver las imágenes que tengo yo en el disco de mi servidor. A tí deberían aparecerte las siguientes:
+  Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. Deberían aparecer las siguientes:
 
   - `tomcat:8.0-jre8` (463MB)
   - `mcr.microsoft.com/mssql/server:2019-latest` (1.43GB)
