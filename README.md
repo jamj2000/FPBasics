@@ -29,8 +29,15 @@ A continuación se muestran los pasos para desplegar la aplicación en el **Cont
 Para ello necesitaremos cada una de estas imágenes. Ambas están disponibles en [DockerHub](https://hub.docker.com).
 
 - https://hub.docker.com/_/tomcat/ . Usaremos el **tag 8.0-jre8**
-- https://hub.docker.com/r/microsoft/mssql-server-linux/ . Usaremos el **tag 2017-latest**
+- https://hub.docker.com/_/microsoft-mssql-server .  Usaremos el **tag 2019-latest**
 
+> Nota:
+>
+> Previamente habiamos usado la imagen
+>  
+> - https://hub.docker.com/r/microsoft/mssql-server-linux/ . Con el **tag 2017-latest**
+>
+> Sin embargo, se considera obsoleta. Por tanto, usaremos la imagen indicada más arriba.
 
 
 ### Pasos a seguir
@@ -110,7 +117,8 @@ Está configuración también puede cambiarse una vez desplegada la aplicación.
           depends_on:
               - sqlserver
       sqlserver:
-          image: "microsoft/mssql-server-linux:2017-latest"
+          # image: "microsoft/mssql-server-linux:2017-latest" # Imagen obsoleta 
+          image: "mcr.microsoft.com/mssql/server:2019-latest"
           environment:
               SA_PASSWORD: "Temporal22"
               ACCEPT_EULA: "Y"
@@ -140,7 +148,7 @@ Está configuración también puede cambiarse una vez desplegada la aplicación.
   Con el comando `docker images` podemos ver las imágenes descargadas en nuestro disco. En la imagen anterior se pueden ver las imágenes que tengo yo en el disco de mi servidor. A tí deberían aparecerte las siguientes:
 
   - `tomcat:8.0-jre8` (463MB)
-  - `microsoft/mssql-server-linux:2017-latest` (1.44GB)
+  - `mcr.microsoft.com/mssql/server:2019-latest` (1.43GB)
 
 
 7) Si todo ha ido bien, abriremos la URL `localhost:8080` en el navegador y veremos lo siguiente:
