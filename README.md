@@ -24,20 +24,12 @@ La documentación de este proyecto está accesible en [este enlace](docs).
 
 ## Despliegue local en Tomcat+SQLServer con contenedores docker
 
-A continuación se muestran los pasos para desplegar la aplicación en el **Contenedor de servlets y servidor web Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
+A continuación se muestran los pasos para desplegar la aplicación en el **Contenedor de servlets y servidor web Tomcat** (Version 8.0.53). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2019).
 
 Para ello necesitaremos cada una de estas imágenes. Ambas están disponibles en [DockerHub](https://hub.docker.com).
 
 - https://hub.docker.com/_/tomcat/ . Usaremos el **tag 8.0-jre8**
 - https://hub.docker.com/_/microsoft-mssql-server .  Usaremos el **tag 2019-latest**
-
-> Nota:
->
-> Previamente habiamos usado la imagen
->  
-> - https://hub.docker.com/r/microsoft/mssql-server-linux/ . Con el **tag 2017-latest**
->
-> Sin embargo, se considera obsoleta. Por tanto, usaremos la imagen indicada más arriba.
 
 
 ### Pasos a seguir
