@@ -309,7 +309,7 @@ Está configuración también puede cambiarse una vez desplegada la aplicación.
 
 ## Despliegue local en WildFly+SQLServer con contenedores docker
 
-A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de aplicaciones WildFly** (Version 8.2.1.Final). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2017 Express Edition).
+A continuación se muestran los pasos para desplegar la aplicación en el **Servidor de aplicaciones WildFly** (Version 8.2.1.Final). También necesitaremos el **Gestor de BBDD MS SQL Server** (Versión 2019).
 
 JBoss (proyecto mantenido por la comunidad de software de código abierto) ha cambiado el nombre a WildFly para evitar la confusión y diferenciar del proyecto con soporte comercial JBoss EAP (Enterprise Application Platform). Actualmente ambos están bajo el paraguas de RedHat.  
 
